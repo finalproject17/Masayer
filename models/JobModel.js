@@ -34,7 +34,7 @@ const JobSchema = new Schema({
         type: String,
         enum: ['Onsite', 'Remote', 'Hybrid']
     },
-    jobLevel: {
+    jobLevelll: {
         type: String,
         enum: ['EntryLevel', 'MidLevel', 'Senior']
     },
@@ -43,6 +43,8 @@ const JobSchema = new Schema({
         //required: true
     },timeStamp:{
         type: Date,
+    }, Madonna: {
+        type:String
     }
 });
 
