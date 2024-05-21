@@ -1,40 +1,53 @@
  const mongoose=require('mongoose');
-const Schema = mongoose.Schema;
+ const Schema = mongoose.Schema;
 
-const JobSchema = new Schema({
+ const JobSchema = new Schema({
     companyName: {
         type: String,
         ref: 'Company', 
         //required: true
     },
+    JobTitle:{
+        type:String
+        ,required:[true,'Job Title is required'],
+        trim:true
+    },JobCategory:{
+        type:[String]
+        ,required:[true]
+    },
+    JobSubCategory:{
+        type:[String],
+        default:'other'
+    },
     description: {
         type: String,
         required: true,
         maxLength: 1000,
-        minLength: 200
+        minLength: 50
     },
-    status: {
+    JobType: {
         type: String,
         enum: ['Full-Time', 'Part-Time', 'Internship', 'Contract'],
-        default: 'pending'
+        default: 'Part-Time'
     },
-    salary: Number,
-    skills: {
+    salary:{type:{ from: Number, to: Number}}
+    ,skills: {
         type: [String],
-       // required: true
+       //required: true
     },
-    workHours: {
+    JobHours: {
         type: { from: Number, to: Number },
         //required: true
     },
     jobLocation: {
         type: [{ State: String, government: String}]
+        ,trim:true
     },
-    locationType: {
+    JoblocationType: {
         type: String,
         enum: ['Onsite', 'Remote', 'Hybrid']
     },
-    jobLevelll: {
+    jobLevel: {
         type: String,
         enum: ['EntryLevel', 'MidLevel', 'Senior']
     },
@@ -43,7 +56,16 @@ const JobSchema = new Schema({
         //required: true
     },timeStamp:{
         type: Date,
-    },
+    },hiredUserId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },status:{
+        type:String,
+        enum:['Open','Closed']
+    },JobSeekersCounts:{
+        type:Number,
+        default:0
+    }
 });
 
 const JobModel= mongoose.model('Job', JobSchema);
