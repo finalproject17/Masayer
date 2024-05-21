@@ -43,9 +43,7 @@ const JobSchema = new Schema({
         //required: true
     },timeStamp:{
         type: Date,
-    }, Madonna: {
-        type:String
-    }
+    },
 });
 
 const JobModel= mongoose.model('Job', JobSchema);
