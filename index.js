@@ -7,6 +7,7 @@ const JobRoute = require('./routes/JobRoute');
 const CompanyRoute = require('./routes/CompanyRoutes');
 const auth = require('./middlewares/auth');
 
+const jobFormRoute = require('./routes/jobFormRoute');
 // Middleware
 app.use(cors());
 app.use(express.json()); 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use('/jobs', JobRoute); 
+app.use('/jobForm', jobFormRoute); 
 
 app.use('/companies', CompanyRoute);
 
