@@ -1,22 +1,23 @@
  const mongoose=require('mongoose');
  const Schema = mongoose.Schema;
+ const company=require('./CompanyModel');
 
  const JobSchema = new Schema({
-    companyName: {
-        type: String,
+    companyId:{
+       type:mongoose.Schema.Types.ObjectId,
         ref: 'Company', 
-        //required: true
+        required: true
     },
     JobTitle:{
         type:String
         ,required:[true,'Job Title is required'],
         trim:true
     },JobCategory:{
-        type:[String]
+        type:String
         ,required:[true]
     },
     JobSubCategory:{
-        type:[String],
+        type:String,
         default:'other'
     },
     description: {
@@ -40,7 +41,7 @@
         //required: true
     },
     jobLocation: {
-        type: [{ State: String, government: String}]
+        type: { State: String, government: String}
         ,trim:true
     },
     JoblocationType: {

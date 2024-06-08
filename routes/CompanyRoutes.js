@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../middlewares/uploadImage'); 
+// const upload = require('../middlewares/uploadImage'); 
 const {
   signup,
   getCompanyById,
@@ -15,7 +15,7 @@ const {
 const { auth } = require('../middlewares/auth');
 
 // Routes
-router.post('/signup', upload.fields([{ name: 'companyLogo', maxCount: 1 }, { name: 'companyImage', maxCount: 1 }]), signup);
+router.post('/signup',signup);
 router.get('/:id', getCompanyById);
 router.get('/', getAllCompanies);
 router.post('/login', companyLogin);
