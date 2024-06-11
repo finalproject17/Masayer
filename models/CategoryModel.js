@@ -1,5 +1,6 @@
 const companySchema = new mongoose.Schema({
-    companyName: {
+ 
+    companyname: {
         type: String,
         required: true
     }})
