@@ -16,13 +16,18 @@ const getAllJobs = async (req, res) => {
     }
 };
 
-
 const getJobById = async (req, res) => {
     let { id } = req.params;
     try {
-        let foundedJob = await JobModel.findById(id);
+        let foundedJob = await JobModel.findById(id).populate('companyId', 'companyLogo companyName');
         if (foundedJob) {
-            res.status(200).json({ foundedJob });
+            res.status(200).json({ 
+                foundedJob: {
+                    ...foundedJob.toObject(),
+                    companyLogo: foundedJob.companyId.companyLogo,
+                    companyName: foundedJob.companyId.companyName
+                }
+            });
         } else {
             res.status(404).json({ message: 'Job not found' });
         }
@@ -30,7 +35,6 @@ const getJobById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
-
 
 const getJobsByCompanyName = async (req, res) => {
     let { companyName } = req.params;
@@ -136,7 +140,17 @@ const filterJobsByLocationState = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
-
+const filterSalaryBudget= async (req, res) => {
+    const { minBudget, maxBudget } = req.body;
+    try {
+      const filterdSalary = await Job.find({
+        salary: { $gte: minBudget,$lte: maxBudget }
+      });
+      res.status(200).send(filterdSalary);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
 
 const filterJobsByLocationGovernment=async(req,res)=>{
 
@@ -188,24 +202,17 @@ try{
 
 
 
-const filterSalaryBudget= async (req, res) => {
-    const { minBudget, maxBudget } = req.body;
-    try {
-      const filterdSalary = await Job.find({
-        salary: { $gte: minBudget,$lte: maxBudget }
-      });
-      res.status(200).send(filterdSalary);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  };
-
-
-
-
-
-
-
+// const filterSalaryBudget= async (req, res) => {
+//     const { minBudget, maxBudget } = req.body;
+//     try {
+//       const filterdSalary = await Job.find({
+//         salary: { $gte: minBudget,$lte: maxBudget }
+//       });
+//       res.status(200).send(filterdSalary);
+//     } catch (error) {
+//       res.status(500).send(error);
+//     }
+//   };
 
 
 

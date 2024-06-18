@@ -1,28 +1,28 @@
-const express = require("express");
-const multer = require("multer");
-const {
-  createCompany,
-  companyLogin,
-} = require("../controllers/CompanyController");
-
+const express = require('express');
 const router = express.Router();
+const upload = require('../middlewares/uploadImage'); 
+const {
+  signup,
+  getCompanyById,
+  getAllCompanies,
+  companyLogin,
+  updateCompanyData,
+  deleteCompanyData,
+  getCompaniesByCity,
+  countCompaniesInCity,
+  countAllCompanies
+} = require('../controllers/CompanyController');
+const { auth } = require('../middlewares/auth');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-router.post(
-  "/signup",
-  upload.fields([{ name: "companyLogo" }, { name: "companyImage" }]),
-  createCompany
-);
-router.post("/login", companyLogin);
+// Routes
+router.post('/signup', upload.fields([{ name: 'companyLogo', maxCount: 1 }, { name: 'companyImage', maxCount: 1 }]), signup);
+router.get('/:id', getCompanyById);
+router.get('/', getAllCompanies);
+router.post('/login', companyLogin);
+router.patch('/:id', auth, updateCompanyData);
+router.delete('/:id', auth, deleteCompanyData);
+router.get('/city/:city', getCompaniesByCity);
+router.get('/count/:city', countCompaniesInCity);
+router.get('/count-all', countAllCompanies);
 
 module.exports = router;

@@ -66,7 +66,12 @@
     },JobSeekersCounts:{
         type:Number,
         default:0
-    }
+    },
+    companyId:{
+        type:mongoose.Schema.Types.ObjectId,
+         ref: 'Company', 
+         required: true
+     }
 });
 
 const JobModel= mongoose.model('Job', JobSchema);
