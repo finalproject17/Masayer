@@ -1,5 +1,4 @@
 const JobModel = require('../models/JobModel');
-const company =require('../models/CompanyModel')
 
 const getAllJobs = async (req, res) => {
     try {
@@ -15,7 +14,6 @@ const getAllJobs = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 const getJobById = async (req, res) => {
     let { id } = req.params;
@@ -64,20 +62,12 @@ const getJobsBySalary = async (req, res) => {
 const postNewJob = async (req, res) => {
     const job = req.body;
     try {
-        
-        const company = await CompanyModel.findById(job.companyId);
-        if (!company) {
-            return res.status(404).json({ message: 'Company not found' });
-        }
-
-       
-        const newJob = new JobModel(job);
-        await newJob.save();
+        const newJob = await JobModel.create(job);
         res.status(201).json({ newJob });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+}
 
 const updateJobById = async (req, res) => {
     let { id } = req.params;
@@ -136,7 +126,17 @@ const filterJobsByLocationState = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
-
+const filterSalaryBudget= async (req, res) => {
+    const { minBudget, maxBudget } = req.body;
+    try {
+      const filterdSalary = await Job.find({
+        salary: { $gte: minBudget,$lte: maxBudget }
+      });
+      res.status(200).send(filterdSalary);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
 
 const filterJobsByLocationGovernment=async(req,res)=>{
 
@@ -188,25 +188,4 @@ try{
 
 
 
-const filterSalaryBudget= async (req, res) => {
-    const { minBudget, maxBudget } = req.body;
-    try {
-      const filterdSalary = await Job.find({
-        salary: { $gte: minBudget,$lte: maxBudget }
-      });
-      res.status(200).send(filterdSalary);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  };
-
-
-
-
-
-
-
-
-
-
-module.exports = {filterSalaryBudget,postNewJob,getAllJobs,getJobById,updateJobById,deleteJobById,deleteAllJobs,getJobsByCompanyName,filterJobsByLocationState,getJobsBySalary,filterJobsByLocationGovernment,getCountByCompanyName,getCountByState,getAllCounts};
+module.exports = {postNewJob,getAllJobs,getJobById,updateJobById,deleteJobById,deleteAllJobs,getJobsByCompanyName,filterJobsByLocationState,getJobsBySalary,filterJobsByLocationGovernment,getCountByCompanyName,getCountByState,getAllCounts,filterSalaryBudget};
