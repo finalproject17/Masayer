@@ -12,8 +12,8 @@
         ,required:[true,'Job Title is required'],
         trim:true
     },JobCategory:{
-        type:[String]
-        ,required:[true]
+        type:String
+        ,required:true
     },
     JobSubCategory:{
         type:[String],

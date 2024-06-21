@@ -193,4 +193,19 @@ try{
 
 
 
-module.exports = {postNewJob,getAllJobs,getJobById,updateJobById,deleteJobById,deleteAllJobs,getJobsByCompanyName,filterJobsByLocationState,getJobsBySalary,filterJobsByLocationGovernment,getCountByCompanyName,getCountByState,getAllCounts,filterSalaryBudget};
+//module.exports = {postNewJob,getAllJobs,getJobById,updateJobById,deleteJobById,deleteAllJobs,getJobsByCompanyName,filterJobsByLocationState,getJobsBySalary,filterJobsByLocationGovernment,getCountByCompanyName,getCountByState,getAllCounts,filterSalaryBudget};
+// const filterSalaryBudget= async (req, res) => {
+//     const { minBudget, maxBudget } = req.body;
+//     try {
+//       const filterdSalary = await Job.find({
+//         salary: { $gte: minBudget,$lte: maxBudget }
+//       });
+//       res.status(200).send(filterdSalary);
+//     } catch (error) {
+//       res.status(500).send(error);
+//     }
+//   };
+
+
+
+module.exports = {filterSalaryBudget,postNewJob,getAllJobs,getJobById,updateJobById,deleteJobById,deleteAllJobs,getJobsByCompanyName,filterJobsByLocationState,getJobsBySalary,filterJobsByLocationGovernment,getCountByCompanyName,getCountByState,getAllCounts};
