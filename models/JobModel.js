@@ -14,7 +14,7 @@
         trim:true
     },JobCategory:{
         type:String
-        ,required:[true]
+        ,required:true
     },
     JobSubCategory:{
         type:String,

@@ -7,11 +7,13 @@ const AppliedJobsSchema = new mongoose.Schema({
     required: true
   },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type:mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   }
 });
+
+
 
 const AppliedJob = mongoose.model("AppliedJob", AppliedJobsSchema);
 
