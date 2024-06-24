@@ -202,6 +202,7 @@ try{
 
 
 
+//module.exports = {postNewJob,getAllJobs,getJobById,updateJobById,deleteJobById,deleteAllJobs,getJobsByCompanyName,filterJobsByLocationState,getJobsBySalary,filterJobsByLocationGovernment,getCountByCompanyName,getCountByState,getAllCounts,filterSalaryBudget};
 // const filterSalaryBudget= async (req, res) => {
 //     const { minBudget, maxBudget } = req.body;
 //     try {
