@@ -1,5 +1,15 @@
 const AppliedJob = require('../models/appliedJobsModel')
 
+const applyForJob = async (req, res) => {
+  try {
+    const { jobId, userId } = req.body;
+    const appliedJob = new AppliedJob({ jobId, userId });
+    await appliedJob.save();
+    res.status(201).json({ message: 'You applied successfully ^_^ GOOD LUCK' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const getAllAppliedJobs = async (req, res) => {
   try {
@@ -44,4 +54,4 @@ const deleteAppliedJob = async (req, res) => {
   }
 };
 
-module.exports ={getAllAppliedJobs,deleteAppliedJob}
+module.exports ={getAllAppliedJobs,deleteAppliedJob, applyForJob}
