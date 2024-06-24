@@ -7,4 +7,5 @@ router.get('/:jobId', appliedJobController.getAllAppliedJobs);
 router.delete('/:applicationId', appliedJobController.deleteAppliedJob);
 
 
+
 module.exports = router;
