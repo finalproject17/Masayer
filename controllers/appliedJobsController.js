@@ -1,10 +1,10 @@
-const AppliedJob = require('../models/appliedJobsModel');
+const AppliedJob = require('../models/appliedJobsModel')
 
 
-exports.getAllAppliedJobs = async (req, res) => {
+const getAllAppliedJobs = async (req, res) => {
   try {
     const jobId = req.params.jobId;
-    const { page = 1, limit = 8 } = req.query;
+    const { page = 1, limit = 6 } = req.query;
 
     const limitInt = parseInt(limit, 10);
     const pageInt = parseInt(page, 10);
@@ -16,22 +16,24 @@ exports.getAllAppliedJobs = async (req, res) => {
 
     const totalItems = await AppliedJob.countDocuments({ jobId });
 
-    res.json({
+    const response = {
       totalItems,
       totalPages: Math.ceil(totalItems / limitInt),
       currentPage: pageInt,
       data: AllAppliedJobs
-    });
+    };
+
+    console.log(response);  
+
+    res.json(response);
   } catch (error) {
+    console.error(error);  
     res.status(500).json({ error: error.message });
   }
 };
 
 
-
-
-
-exports.deleteAppliedJob = async (req, res) => {
+const deleteAppliedJob = async (req, res) => {
   try {
     const applicationId = req.params.applicationId;
 
@@ -42,4 +44,4 @@ exports.deleteAppliedJob = async (req, res) => {
   }
 };
 
-
+module.exports ={getAllAppliedJobs,deleteAppliedJob}

@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const appliedJobController = require('../controllers/appliedJobsController');
+const{getAllAppliedJobs,deleteAppliedJob}=require('../controllers/appliedJobsController')
 
-router.post('/', appliedJobController.applyForJob);
+// router.post('/', appliedJobController.applyForJob);
 router.get('/:jobId', appliedJobController.getAllAppliedJobs);
 router.delete('/:applicationId', appliedJobController.deleteAppliedJob);
 
