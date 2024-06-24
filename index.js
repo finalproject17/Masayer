@@ -5,8 +5,9 @@ const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const JobRoute = require('./routes/JobRoute'); 
 const CompanyRoute = require('./routes/CompanyRoutes');
+const userRoutes = require('./routes/userRoute');
 const auth = require('./middlewares/auth');
-
+const usersRoute = require("./routes/userRoute");
 const jobFormRoute = require('./routes/jobFormRoute');
 // Middleware
 app.use(cors());
@@ -16,8 +17,9 @@ app.use(express.json());
 // Routes
 app.use('/jobs', JobRoute); 
 app.use('/jobForm', jobFormRoute); 
-
 app.use('/companies', CompanyRoute);
+app.use("/users", usersRoute);
+
 
 
 

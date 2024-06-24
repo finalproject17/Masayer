@@ -1,32 +1,28 @@
 const jwt = require('jsonwebtoken');
 
-let{promisify} = require('util');
-
-
-   async function auth (req,res,next){
-let {authorization}=req.headers;
-
-if(!authorization){
-    return res.status(401).json({masseg : "unauthorizatcated yom must login first"})
-  }
-  try{
-    let decoded   =await  promisify(jwt.verify)(authorization,process.env.JWT_SECRET )
-    req.id = decoded.data.id
-  }catch(error){
-    return res.status(401).json({masseg : "unauthorizatcated "})
-  }
-  next();
-
+function auth(req, res, next) {
+    var { authorization } = req.headers
+    if (authorization) {
+        jwt.verify(authorization, process.env.SECRET, function (err, decoded) {
+            if (err) {
+                res.status(401).json({ message: err.message });
+            }
+            if (decoded) {
+                
+                req.userName = decoded.userName;
+                req.userId = decoded.userId;
+                
+                //req.roleId = decoded.roleId;
+                next();
+            }
+            else {
+                res.status(401).end();
+            }
+        })
+    }
+    else {
+        res.status(401).end("Not Authenticated User");
+    }
 }
-module.exports={auth}
 
-
-
-
-
-
-
-
-
-
-module.exports={auth};
+module.exports = { auth };
