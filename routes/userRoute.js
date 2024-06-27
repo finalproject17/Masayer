@@ -9,5 +9,8 @@ router.delete("/:id", userController.deleteUser);
 router.put("/:id", userController.updateUser);
 router.patch("/changeactivity/:id", userController.changeUserActivity);
 router.post("/login", userController.login);
+router.post("/requestotp",userController.RequestOTP)
+router.post("/verifyotp",userController.verifyOTP);
+router.post("/resetpassword",userController.resetPassword);
 
 module.exports = router;
