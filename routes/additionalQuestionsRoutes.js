@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { addJobForm, updateJobForm, deletJobForm, getJobForm } = require("../controllers/jobFormController");
+const { addJobForm, updateJobForm, deleteJobForm, getJobForm } = require("../controllers/additionalQuestionsController");
 
 router.get("/", getJobForm);
 router.post("/", addJobForm);
 router.put("/:id", updateJobForm);
-router.delete("/:id", deletJobForm);
+router.delete("/:id", deleteJobForm);
 
 module.exports = router;
