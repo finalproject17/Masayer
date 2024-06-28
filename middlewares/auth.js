@@ -1,28 +1,20 @@
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 
-function auth(req, res, next) {
-    var { authorization } = req.headers
-    if (authorization) {
-        jwt.verify(authorization, process.env.SECRET, function (err, decoded) {
-            if (err) {
-                res.status(401).json({ message: err.message });
-            }
-            if (decoded) {
-                
-                req.userName = decoded.userName;
-                req.userId = decoded.userId;
-                
-                //req.roleId = decoded.roleId;
-                next();
-            }
-            else {
-                res.status(401).end();
-            }
-        })
+async function auth(req, res, next) {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+        return res.status(401).json({ message: "Unauthorized. You must log in first." });
     }
-    else {
-        res.status(401).end("Not Authenticated User");
+
+    try {
+        const decoded = await promisify(jwt.verify)(authorization, process.env.JWT_SECRET);
+        req.id = decoded.data.id;
+    } catch (error) {
+        return res.status(401).json({ message: "Unauthorized. Invalid token." });
     }
+    next();
 }
 
 module.exports = { auth };
