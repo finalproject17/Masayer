@@ -11,7 +11,12 @@ const SavedJobSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Job',
         required: true
-    }
+    },
+    // companyId:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //      ref: 'Company', 
+    //      required: true
+    //  }
 });
 
 const SavedJobModel = mongoose.model('SavedJob', SavedJobSchema);

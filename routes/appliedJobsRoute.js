@@ -5,7 +5,9 @@ const{getAllAppliedJobs,deleteAppliedJob}=require('../controllers/appliedJobsCon
 
 // router.post('/', appliedJobController.applyForJob);
 router.get('/:jobId', appliedJobController.getAllAppliedJobs);
+router.get('/get/:userId', appliedJobController.getAllAppliedJobsByJobSeeker);
 router.delete('/:applicationId', appliedJobController.deleteAppliedJob);
+router.get('/count/:jobId', appliedJobController.getCountByUser);
 
 
 
