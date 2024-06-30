@@ -17,12 +17,13 @@ const AppliedJobsSchema = new mongoose.Schema({
     enum: appliedJobStatusEnum,
     default: "pending",
   },
-
+  FirstAnswer:{type:String },
+  SecondAnswer:{type:String },
+  thirdAnswer:{type:String },
+  FourthAnswer:{type:String },
   timeStamp: {
     type: Date,
   }
-
-  
 });
 AppliedJobsSchema.statics.countAppliedJobsByUser = async function(userId) {
   try {
@@ -34,5 +35,4 @@ AppliedJobsSchema.statics.countAppliedJobsByUser = async function(userId) {
 };
 
 const AppliedJob = mongoose.model("AppliedJob", AppliedJobsSchema);
-
 module.exports = AppliedJob;

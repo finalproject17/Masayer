@@ -14,10 +14,10 @@ const appliedJobsRoute = require("./routes/appliedJobsRoute");
 app.use(
   cors({
     origin: "*",
-    credentials: true,
-    allowedHeaders:
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    methods: "GET, POST, PATCH, DELETE, OPTIONS",
+    // credentials: true,
+    // allowedHeaders:
+    //   "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    // methods: "GET, POST, PATCH, DELETE, OPTIONS",
   })
 );
 
