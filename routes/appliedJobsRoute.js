@@ -7,6 +7,7 @@ router.get('/:jobId', appliedJobController.getAllAppliedJobs);
 router.get('/get/:userId', appliedJobController.getAllAppliedJobsByJobSeeker);
 router.delete('/:applicationId', appliedJobController.deleteAppliedJob);
 router.get('/count/:jobId', appliedJobController.getCountByUser);
+router.get('/counts/:userId', appliedJobController.countAppliedJobsByUser);
 
 
 

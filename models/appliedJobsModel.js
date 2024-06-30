@@ -24,6 +24,14 @@ const AppliedJobsSchema = new mongoose.Schema({
 
   
 });
+AppliedJobsSchema.statics.countAppliedJobsByUser = async function(userId) {
+  try {
+      const count = await this.countDocuments({ userId });
+      return count;
+  } catch (err) {
+      throw err;
+  }
+};
 
 const AppliedJob = mongoose.model("AppliedJob", AppliedJobsSchema);
 

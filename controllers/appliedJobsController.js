@@ -112,5 +112,18 @@ const getCountByUser = async (req, res) => {
   }
 };
 
+const countAppliedJobsByUser = async (req, res) => {
+  const userId = req.params.userId;
 
-module.exports = { applyForJob, getAllAppliedJobsByJobSeeker, getAllAppliedJobs, deleteAppliedJob ,getCountByUser};
+  try {
+      const count = await AppliedJob.countAppliedJobsByUser(userId);
+      res.json({ count });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+
+
+module.exports = { applyForJob, getAllAppliedJobsByJobSeeker, getAllAppliedJobs, deleteAppliedJob ,getCountByUser, countAppliedJobsByUser};

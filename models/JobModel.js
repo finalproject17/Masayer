@@ -56,6 +56,7 @@ const JobSchema = new Schema({
   },
   timeStamp: {
     type: Date,
+    default:Date.now
   },
   hiredUserId: {
     type: mongoose.Schema.Types.ObjectId,
