@@ -7,7 +7,7 @@ const JobRoute = require("./routes/JobRoute");
 const CompanyRoute = require("./routes/CompanyRoutes");
 const usersRoute = require("./routes/userRoute");
 const additionalQuestionsRoute = require("./routes/additionalQuestionsRoutes");
-const auth = require("./middlewares/auth");
+const { authenticateToken } = require("./middlewares/auth");
 const savedJobRoutes = require("./routes/savedJobsRoute");
 const appliedJobsRoute = require("./routes/appliedJobsRoute"); 
 
@@ -23,13 +23,13 @@ app.use(
 
 
 app.use(express.json());
+app.use(authenticateToken);
 app.use("/users", usersRoute);
 app.use("/jobs", JobRoute);
 app.use("/additionalQuestions", additionalQuestionsRoute);
 app.use("/companies", CompanyRoute);
 app.use("/savedJobs", savedJobRoutes);
 app.use("/appliedJobs", appliedJobsRoute);
-
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
