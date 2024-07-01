@@ -1,9 +1,9 @@
-const jobFormModel = require("../models/jobFormModel");
+const additionalQuestionsModel = require("../models/additionalQuestionsModel");
 
 const addJobForm = (req, res) => {
   const dataJobForm = req.body;
     
-  jobFormModel
+  additionalQuestionsModel
     .create(dataJobForm)
     .then((savedJobForm) => {
       res.status(201).json(savedJobForm);
@@ -16,7 +16,7 @@ const addJobForm = (req, res) => {
 
 const getJobForm = async (req, res) => {
   try {
-  let jobForms = await jobFormModel.find();
+  let jobForms = await additionalQuestionsModel.find();
     res.status(201).json(jobForms);
   } catch (err) {
     res.status(500).json({
@@ -28,25 +28,27 @@ const updateJobForm = async(req, res) => {
   const { id } = req.params;
   const newJobForm = req.body;
   try {
-    let updatedForm = await jobFormModel.findByIdAndUpdate(id, newJobForm,{new:true});
+    let updatedForm = await additionalQuestionsModel.findByIdAndUpdate(id, newJobForm,{new:true});
     res.status(200).json(updatedForm);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 }
-const deletJobForm = async(req, res) => {
+const deleteJobForm = async(req, res) => {
   const { id } = req.params;
   try {
-    let deletedForm = await jobFormModel.findByIdAndDelete(id);
+    let deletedForm = await additionalQuestionsModel.findByIdAndDelete(id);
     res.status(200).json(deletedForm);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+
+
 module.exports = {
   addJobForm,
   getJobForm,
   updateJobForm,
-  deletJobForm
+  deleteJobForm
 };
