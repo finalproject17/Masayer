@@ -11,8 +11,21 @@ const SavedJobSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Job',
         required: true
-    }
+    },
+    // companyId:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //      ref: 'Company', 
+    //      required: true
+    //  }
 });
+SavedJobSchema.statics.countSavedJobsByUser = async function(userId) {
+    try {
+        const count = await this.countDocuments({ userId });
+        return count;
+    } catch (err) {
+        throw err;
+    }
+};
 
 const SavedJobModel = mongoose.model('SavedJob', SavedJobSchema);
 module.exports = SavedJobModel;
