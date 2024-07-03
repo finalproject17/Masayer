@@ -97,6 +97,9 @@ const register = async (req, res) => {
     skills,
     overview,
     socialMedia,
+    isActive,
+    education,
+    workAndExperience
   } = req.body;
   try {
     let user = await usersModel.findOne({ email });
@@ -120,6 +123,9 @@ const register = async (req, res) => {
       skills,
       overview,
       socialMedia,
+      isActive,
+      education,
+      workAndExperience
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -142,7 +148,7 @@ const register = async (req, res) => {
           console.error(`JWT Error: ${err.message}`);
           throw err;
         }
-        res.json({ token });
+        res.json({ token, user });
       }
     );
   } catch (err) {
