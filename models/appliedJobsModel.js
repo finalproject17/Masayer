@@ -18,11 +18,16 @@ const AppliedJobsSchema = new mongoose.Schema({
     default: "pending",
   },
   FirstAnswer:{type:String },
-  SecondAnswer:{type:String },
+  SecondAnswer:{type:String  },
   thirdAnswer:{type:String },
   FourthAnswer:{type:String },
+  additionalFormSubmitted:{type:Boolean,
+    default:true,
+    required:true
+  },
   timeStamp: {
     type: Date,
+    default: Date.now,
   }
 });
 AppliedJobsSchema.statics.countAppliedJobsByUser = async function(userId) {

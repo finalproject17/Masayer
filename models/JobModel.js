@@ -77,7 +77,7 @@ const JobSchema = new Schema({
   },
   additionalJobForm: {
     type: Boolean,
-    default:false,
+    // default:false,
   },
 });
 

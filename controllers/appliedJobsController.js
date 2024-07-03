@@ -1,29 +1,63 @@
 const AppliedJob = require('../models/appliedJobsModel');
+const JobModel = require('../models/JobModel');
+
+
 const applyForJob = async (req, res) => {
-  const { userId, jobId,companyId } = req.body;
+  const { userId, jobId, FirstAnswer, SecondAnswer, thirdAnswer, FourthAnswer } = req.body;
+
   try {
-    const existingAppliedJob = await AppliedJob.findOne({ userId, jobId });
-    if (existingAppliedJob) {
-      return res.status(400).json({ message: 'You have already applied for this job !!!!' });
+    const job = await JobModel.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
     }
 
-    const appliedJob = new AppliedJob({ userId, jobId });
+    const existingAppliedJob = await AppliedJob.findOne({ userId, jobId });
+    if (existingAppliedJob) {
+      return res.status(400).json({ message: 'You have already applied for this job!' });
+    }
+
+    
+    let appliedJobData = {
+      userId,
+      jobId,
+      appliedJobStatus: 'pending',
+    };
+
+    if (job.additionalJobForm) {
+
+      if (!FirstAnswer || !SecondAnswer || !thirdAnswer || !FourthAnswer) {
+        return res.status(400).json({ message: 'All form answers are required' });
+      }
+
+    
+      appliedJobData = {
+        ...appliedJobData,
+        FirstAnswer,
+        SecondAnswer,
+        thirdAnswer,
+        FourthAnswer
+      };
+    }
+
+    const appliedJob = new AppliedJob(appliedJobData);
     await appliedJob.save();
 
-    res.status(201).json({ message: 'Congratulations, You applied successfully ^_^', data: appliedJob });
+  
+    // const savedAppliedJob = await AppliedJob.findById(appliedJob._id);
+
+    return res.status(201).json({ message: 'Congratulations, you applied successfully ', data: appliedJob });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 };
-
 
 
 
 const getAllAppliedJobsByJobSeeker = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { page = 1, limit = 100 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
 
     const limitInt = parseInt(limit, 10);
     const pageInt = parseInt(page, 10);
@@ -85,6 +119,10 @@ const getAllAppliedJobs = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+//getJobByAppliedId
 
 const deleteAppliedJob = async (req, res) => {
   try {
