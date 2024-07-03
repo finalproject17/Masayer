@@ -12,11 +12,6 @@ const SavedJobSchema = new Schema({
         ref: 'Job',
         required: true
     },
-    // companyId:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //      ref: 'Company', 
-    //      required: true
-    //  }
 });
 SavedJobSchema.statics.countSavedJobsByUser = async function(userId) {
     try {
