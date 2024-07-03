@@ -16,6 +16,9 @@ const AppliedJobsSchema = new mongoose.Schema({
     required: true,
     enum: appliedJobStatusEnum,
     default: "pending",
+  },additionalFormSubmitted:{
+    type:Boolean,
+    default:false
   },
   FirstAnswer:{type:String },
   SecondAnswer:{type:String  },

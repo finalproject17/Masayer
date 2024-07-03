@@ -11,6 +11,7 @@ const additionalQuestionsSchema = new Schema({
   SecondQuestion: { type: String ,   required: true},
   ThirdQuestion: { type: String ,   required: true},
   FourthQuestion: { type: String,  required: true }
+  ,
 });
 
 module.exports = mongoose.model('AdditionalQuestions', additionalQuestionsSchema);

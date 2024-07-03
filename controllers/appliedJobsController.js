@@ -1,7 +1,6 @@
 const AppliedJob = require('../models/appliedJobsModel');
 const JobModel = require('../models/JobModel');
 
-
 const applyForJob = async (req, res) => {
   const { userId, jobId, FirstAnswer, SecondAnswer, thirdAnswer, FourthAnswer } = req.body;
 
