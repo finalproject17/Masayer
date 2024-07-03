@@ -21,8 +21,6 @@ const AppliedJobsSchema = new mongoose.Schema({
   SecondAnswer:{type:String  },
   thirdAnswer:{type:String },
   FourthAnswer:{type:String },
-
-  
   timeStamp: {
     type: Date,
     default: Date.now,
