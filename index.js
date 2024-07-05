@@ -10,14 +10,15 @@ const additionalQuestionsRoute = require("./routes/additionalQuestionsRoutes");
 const auth = require("./middlewares/auth");
 const savedJobRoutes = require("./routes/savedJobsRoute");
 const appliedJobsRoute = require("./routes/appliedJobsRoute"); 
+const upload =require("./routes/upload")
 
 app.use(
   cors({
     origin: "*",
-    // credentials: true,
-    // allowedHeaders:
-    //   "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    // methods: "GET, POST, PATCH, DELETE, OPTIONS",
+    credentials: true,
+    allowedHeaders:
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    methods: "GET, POST, PATCH, DELETE, OPTIONS",
   })
 );
 
@@ -29,6 +30,7 @@ app.use("/additionalQuestions", additionalQuestionsRoute);
 app.use("/companies", CompanyRoute);
 app.use("/savedJobs", savedJobRoutes);
 app.use("/appliedJobs", appliedJobsRoute);
+app.use("/upload", upload);
 
 mongoose
   .connect(process.env.MONGO)
