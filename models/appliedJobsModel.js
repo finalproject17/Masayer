@@ -24,6 +24,10 @@ const AppliedJobsSchema = new mongoose.Schema({
   SecondAnswer:{type:String  },
   thirdAnswer:{type:String },
   FourthAnswer:{type:String },
+  additionalFormSubmitted:{type:Boolean,
+    default:false,
+    required:true
+  },
   timeStamp: {
     type: Date,
     default: Date.now,

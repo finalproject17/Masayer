@@ -1,7 +1,6 @@
 const AppliedJob = require('../models/appliedJobsModel');
 const JobModel = require('../models/JobModel');
 
-
 const applyForJob = async (req, res) => {
   const { userId, jobId, FirstAnswer, SecondAnswer, thirdAnswer, FourthAnswer } = req.body;
 
@@ -28,18 +27,23 @@ const applyForJob = async (req, res) => {
       if (!FirstAnswer || !SecondAnswer || !thirdAnswer || !FourthAnswer) {
         return res.status(400).json({ message: 'All form answers are required' });
       }
+
+    
       appliedJobData = {
         ...appliedJobData,
         FirstAnswer,
         SecondAnswer,
         thirdAnswer,
-        FourthAnswer,
-        additionalFormSubmitted:true
+        FourthAnswer
       };
     }
+
     const appliedJob = new AppliedJob(appliedJobData);
     await appliedJob.save();
+
+  
     // const savedAppliedJob = await AppliedJob.findById(appliedJob._id);
+
     return res.status(201).json({ message: 'Congratulations, you applied successfully ', data: appliedJob });
   } catch (err) {
     console.error(err);
@@ -96,7 +100,6 @@ const applyForJob = async (req, res) => {
 //     res.status(500).json({ message: 'Server Error', error: err.message });
 //   }
 // };
-
 
 
 const getAllAppliedJobsByJobSeeker = async (req, res) => {

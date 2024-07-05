@@ -48,8 +48,7 @@ const userSchema = new mongoose.Schema({
     from:{type:String ,enum: fromDate},
     to:{type:String ,enum: toDate},
     description:{type: String}
-  }
-  ,
+  },
   googleId:{type:String}
 });
 

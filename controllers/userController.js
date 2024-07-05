@@ -333,45 +333,6 @@ const registerWithGoogle = async (req, res) => {
 
 
 
-//REQUEST OTP
-// const otps = new Map();
-// const RequestOTP = async (req, res) => {
-//   const { email } = req.body;
-//   try {
-//     const user = await usersModel.findOne({ email });
-//     if (!user) {
-//       console.log(`User with email ${email} not found`);
-//       return res.status(404).send("User not found");
-//     }
-
-//     const OTP = Math.floor(100000 + Math.random() * 900000).toString();
-//     const expiresAt = Date.now() + 15 * 60 * 1000;
-//     otps.set(user.id, { OTP, expiresAt });
-
-//     const mailOptions = {
-//       from: process.env.EMAIL,
-//       to: email,
-//       subject: "Your OTP Code",
-//       text: `Hello, Your OTP code is ${OTP}`,
-//     };
-
-//     transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//         console.log(error);
-//         return res.status(500).json({ message: "Failed to send OTP" });
-//       }
-//       console.log("Email sent: " + info.response);
-//       res.status(200).json({ message: "OTP sent successfully" });
-//     });
-//   } catch (err) {
-//     console.error(`RequestOTP Error: ${err.message}`);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
-
-
-
-
 
 
 
@@ -409,31 +370,6 @@ const verifyOTP = async (req, res) => {
   }
 };
 
-//RESET PASS
-// const resetPassword = async (req, res) => {
-//   const { email, newPassword } = req.body;
-//   try {
-//     const user = await usersModel.findOne({ email });
-//     if (!user) {
-//       return res.status(404).send("User not found");
-//     }
-
-//     const storedOtp = otps.get(user.id);
-//     if (!storedOtp || !storedOtp.verified) {
-//       return res.status(400).send("OTP not verified or expired");
-//     }
-
-//     const salt = await bcrypt.genSalt(10);
-//     user.password = await bcrypt.hash(newPassword, salt);
-//     await user.save();
-
-//     otps.delete(user.id);
-//     res.send("Password reset successful");
-//   } catch (err) {
-//     console.error(`ResetPassword Error: ${err.message}`);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
 
 
 
@@ -482,41 +418,6 @@ const RequestOTP = async (req, res) => {
 
 
 
-
-
-//verify OTP
-// const verifyOTP = async (req, res) => {
-//   const { otp, email } = req.body;
-//   try {
-//     console.log("Verify OTP Payload:", { otp, email });
-//     const user = await usersModel.findOne({ email });
-//     if (!user) {
-//       console.log("User not found");
-//       return res.status(404).send("User not found");
-//     }
-
-//     const storedOtp = otps.get(user.id);
-//     console.log("Stored OTP:", storedOtp);
-//     if (!storedOtp || storedOtp.expiresAt < Date.now()) {
-//       console.log("OTP expired or invalid");
-//       return res.status(400).send("OTP expired or invalid");
-//     }
-
-//     if (typeof otp !== "string" || storedOtp.OTP !== otp) {
-//       console.log("Invalid OTP");
-//       return res.status(400).send("Invalid OTP");
-//     }
-
-//     // OTP is valid, mark it as verified
-//     storedOtp.verified = true;
-//     otps.set(user.id, storedOtp);
-
-//     res.send("OTP verified successfully");
-//   } catch (err) {
-//     console.error(`VerifyOTP Error: ${err.message}`);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
 
 //RESET PASS
 const resetPassword = async (req, res) => {
