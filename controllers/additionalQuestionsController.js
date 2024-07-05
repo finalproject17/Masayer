@@ -1,4 +1,16 @@
-const additionalQuestionsModel = require("../models/additionalQuestionsModel");
+const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
+const Schema = mongoose.Schema;
+
+const additionalQuestionsSchema = new Schema({
+  jobId: { type: Schema.Types.ObjectId, ref: "JobModel", required: true },
+  FirstQuestion: { type: String },
+  SecondQuestion: { type: String },
+  ThirdQuestion: { type: String },
+  FourthQuestion: { type: String }
+});
+
+const additionalQuestionsModel = mongoose.model("additionalQuestions", additionalQuestionsSchema);
 
 const addJobForm = (req, res) => {
   const dataJobForm = req.body;
@@ -14,27 +26,44 @@ const addJobForm = (req, res) => {
     });
 };
 
-const getJobForm = async (req, res) => {
+
+
+async function getFormByJobId(req, res) {
   try {
-  let jobForms = await additionalQuestionsModel.find();
-    res.status(201).json(jobForms);
-  } catch (err) {
-    res.status(500).json({
-      message: err.message
-    });
+    const jobId = new ObjectId(req.params.id);
+    const form = await additionalQuestionsModel.findOne({ jobId: jobId });
+    if (!form) {
+      return res.status(404).json({ message: 'Form not found' });
+    }
+    res.json(form);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 }
-const updateJobForm = async(req, res) => {
+
+
+
+const getJobForm = async (req, res) => {
+  try {
+    let jobForms = await additionalQuestionsModel.find();
+    res.status(200).json(jobForms); 
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const updateJobForm = async (req, res) => {
   const { id } = req.params;
   const newJobForm = req.body;
   try {
-    let updatedForm = await additionalQuestionsModel.findByIdAndUpdate(id, newJobForm,{new:true});
+    let updatedForm = await additionalQuestionsModel.findByIdAndUpdate(id, newJobForm, { new: true });
     res.status(200).json(updatedForm);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}
-const deleteJobForm = async(req, res) => {
+};
+
+const deleteJobForm = async (req, res) => {
   const { id } = req.params;
   try {
     let deletedForm = await additionalQuestionsModel.findByIdAndDelete(id);
@@ -44,11 +73,10 @@ const deleteJobForm = async(req, res) => {
   }
 };
 
-
-
 module.exports = {
   addJobForm,
   getJobForm,
   updateJobForm,
-  deleteJobForm
+  deleteJobForm,
+  getFormByJobId
 };

@@ -7,29 +7,31 @@ const JobRoute = require("./routes/JobRoute");
 const CompanyRoute = require("./routes/CompanyRoutes");
 const usersRoute = require("./routes/userRoute");
 const additionalQuestionsRoute = require("./routes/additionalQuestionsRoutes");
-const { authenticateToken } = require("./middlewares/auth");
+const auth = require("./middlewares/auth");
 const savedJobRoutes = require("./routes/savedJobsRoute");
 const appliedJobsRoute = require("./routes/appliedJobsRoute"); 
+const upload =require("./routes/upload")
 
 app.use(
   cors({
     origin: "*",
-    // credentials: true,
-    // allowedHeaders:
-    //   "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    // methods: "GET, POST, PATCH, DELETE, OPTIONS",
+    credentials: true,
+    allowedHeaders:
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    methods: "GET, POST, PATCH, DELETE, OPTIONS",
   })
 );
 
 
 app.use(express.json());
-app.use(authenticateToken);
 app.use("/users", usersRoute);
 app.use("/jobs", JobRoute);
 app.use("/additionalQuestions", additionalQuestionsRoute);
 app.use("/companies", CompanyRoute);
 app.use("/savedJobs", savedJobRoutes);
 app.use("/appliedJobs", appliedJobsRoute);
+app.use("/upload", upload);
+
 mongoose
   .connect(process.env.MONGO)
   .then(() => {

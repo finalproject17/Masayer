@@ -79,6 +79,51 @@ const changeUserActivity = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+const changePassword = async (req, res) => {
+  const userIdFromHeader = req.headers['user-id'];
+  const { currentPassword, newPassword } = req.body;
+  const token = req.headers['authorization']?.split(' ')[1];
+  console.log(req.headers);
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userIdFromToken = decoded.user.id;
+
+
+    if (userIdFromHeader !== userIdFromToken.toString()) {
+      return res.status(403).json({ message: 'Unauthorized action' });
+    }
+
+
+    const user = await usersModel.findById(userIdFromToken);
+
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Current password is incorrect' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+
+    await usersModel.findByIdAndUpdate(userIdFromToken, { password: hashedPassword });
+
+    res.json({ message: 'Password changed successfully' });
+  } catch (err) {
+    console.error(`Change Password Error: ${err.message}`);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 const register = async (req, res) => {
   const {
@@ -97,6 +142,9 @@ const register = async (req, res) => {
     skills,
     overview,
     socialMedia,
+    isActive,
+    education,
+    workAndExperience
   } = req.body;
   try {
     let user = await usersModel.findOne({ email });
@@ -120,6 +168,9 @@ const register = async (req, res) => {
       skills,
       overview,
       socialMedia,
+      isActive,
+      education,
+      workAndExperience
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -142,7 +193,7 @@ const register = async (req, res) => {
           console.error(`JWT Error: ${err.message}`);
           throw err;
         }
-        res.json({ token });
+        res.json({ token, user });
       }
     );
   } catch (err) {
@@ -150,6 +201,8 @@ const register = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -193,6 +246,89 @@ const login = async (req, res) => {
   }
 };
 
+const loginWithGoogle = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    console.log(`Attempting login for email: ${email}`);
+    let user = await usersModel.findOne({ email });
+
+    if (!user) {
+      console.log(`User not found for email: ${email}`);
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const payload = {
+      user: {
+        id: user.id,
+      },
+    };
+
+      console.log(`JWT_SECRET: ${process.env.JWT_SECRET}`);
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: 360000 },
+      (err, token) => {
+        if (err) {
+          console.error(`JWT Error: ${err.message}`);
+          throw err;
+        }
+        console.log(`Login successful for email: ${email}`);
+        return res.json({ token, user: { ...user.toObject(), id: user.id } });
+      }
+    );
+  } catch (err) {
+    console.error(`Login Error: ${err.message}`);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+const registerWithGoogle = async (req, res) => {
+  const { firstName, lastName, email, googleId } = req.body;
+
+  try {
+        let user = await usersModel.findOne({ email });
+    if (user) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+  
+    user = new usersModel({
+      firstName,
+      lastName,
+      email,
+      googleId,
+    });
+
+    await user.save();
+
+    
+    const payload = {
+      user: {
+        id: user.id,
+      },
+    };
+
+    
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: 360000 },
+      (err, token) => {
+        if (err) {
+          console.error(`JWT Error: ${err.message}`);
+          throw err;
+        }
+        res.json({ token, user });
+      }
+    );
+  } catch (err) {
+    console.error(`Register Error: ${err.message}`);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 
 
@@ -314,4 +450,7 @@ module.exports = {
   RequestOTP,
   verifyOTP,
   resetPassword,
+  changePassword,
+  registerWithGoogle,
+  loginWithGoogle,
 };
